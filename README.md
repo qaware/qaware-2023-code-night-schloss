@@ -28,7 +28,7 @@ The reload command is used to be able to update the code and start the applicati
 
 After the installation the API can be called via curl or the browser to serve the user with data or as data storage.
 
-## Maintaner
+## Maintainer
 
 R. Kalleicher, <robin.kalleicher@qaware.de>     
 C. Thelen, <christoph.thelen@qaware.de>
