@@ -19,7 +19,7 @@ def create_data(create: SensorDataModel):
 
 
 def update_data(id: str, update: SensorUpdateModel):
-    return requests.post(os.environ["SERVICE_URL"] + 'sensor/' + id, update.json())
+    return requests.put(os.environ["SERVICE_URL"] + 'sensor/' + id, update.json())
 
 
 def get_file_names_in_directory(directory_path: str):
