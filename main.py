@@ -16,7 +16,7 @@ client = motor.motor_asyncio.AsyncIOMotorClient(os.environ["MONGODB_URL"])
 db = client.sensor_data
 
 
-@app.get("/", response_description="Hello World")
+@app.get("/hello_world", response_description="Hello World")
 def hello_world():
     return "Hello World!"
 
