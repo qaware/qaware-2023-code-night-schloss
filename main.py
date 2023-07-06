@@ -18,7 +18,8 @@ db = client.sensor_data
 
 @app.get("/hello_world", response_description="Hello World")
 def hello_world():
-    return "Hello World!"
+    response = "Hello World"
+    return JSONResponse(status_code=status.HTTP_200_OK, content=response)
 
 
 @app.post("/sensor/", response_description="Create Sensor Data", response_model=SensorDataModel)
