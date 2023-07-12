@@ -1,4 +1,3 @@
-import json
 import os
 from typing import List
 
@@ -24,11 +23,15 @@ def hello_world():
     return JSONResponse(status_code=status.HTTP_200_OK, content=response)
 
 
-@app.get("/address", response_description="Address")
+@app.get("/address/", response_description="Address", response_model=Address)
 def address():
     address = Address(country="Germany", city="Mainz", street="Leo-Trepp-Platz", house_number="1")
-    json_address = json.dumps(address.__dict__)
-    return JSONResponse(status_code=status.HTTP_200_OK, content=json_address)
+    return JSONResponse(status_code=status.HTTP_200_OK, content=address.json())
+
+
+@app.post("/address/", response_description="Address", response_model=Address)
+def address(data: Address):
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content=data.json())
 
 
 @app.post("/sensor/", response_description="Create Sensor Data", response_model=SensorDataModel)
@@ -79,6 +82,11 @@ async def delete_sensor_data(id: str):
     return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content=None)
 
 if __name__ == '__main__':
-    answer = requests.get("http://127.0.0.1:8000/address")
-    object = json.loads(json.loads(answer.content), object_hook=lambda d: Address(**d))
-    print(object.country)
+    sensor = SensorDataModel(name="Test")
+    address = Address(country="Germany", city="Mainz", street="Leo-Trepp-Platz", house_number="1a")
+    answer1 = requests.post("http://127.0.0.1:8000/sensor/", sensor.json())
+    answer2 = requests.post("http://127.0.0.1:8000/address/", address.json())
+    answer3 = requests.get("http://127.0.0.1:8000/address/")
+    print(answer1.status_code)
+    print(answer2.status_code)
+    print(answer3.status_code)

@@ -51,14 +51,8 @@ class SensorUpdateModel(BaseModel):
         }
 
 
-class Address:
-    country: str
-    city: str
-    street: str
-    house_number: str
-
-    def __init__(self, country, city, street, house_number):
-        self.country = country
-        self.city = city
-        self.street = street
-        self.house_number = house_number
+class Address(BaseModel):
+    country: str = Field(...)
+    city: str = Field(...)
+    street: str = Field(...)
+    house_number: str = Field(...)
