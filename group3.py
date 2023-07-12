@@ -1,7 +1,10 @@
+import json
 import os
 import time
 
 import requests
+
+from models import Address
 
 # Parameter Definition: ================================================================================================
 
@@ -15,6 +18,12 @@ def hello_world():
     return requests.get(os.environ["SERVICE_URL"] + '/hello_world').content
 
 
+def address():
+    answer = requests.get(os.environ["SERVICE_URL"] + '/address')
+    address_object = json.loads(json.loads(answer.content), object_hook=lambda d: Address(**d))
+    return address_object
+
+
 def ask_from_group_2():
     # TODO: Implement the REST call to group 2
     return None
@@ -23,5 +32,6 @@ def ask_from_group_2():
 # Main Program: ========================================================================================================
 
 while True:
-    print(hello_world())
+    print(f"Hello World: {hello_world()}")
+    print(f"Adresse: {address().country}")
     time.sleep(2)
