@@ -18,7 +18,7 @@ def hello_world():
     return requests.get(os.environ["SERVICE_URL"] + '/hello_world').content
 
 
-def address():
+def get_address():
     answer = requests.get(os.environ["SERVICE_URL"] + '/address')
     address_object = json.loads(json.loads(answer.content), object_hook=lambda d: Address(**d))
     return address_object
@@ -33,5 +33,5 @@ def ask_from_group_2():
 
 while True:
     print(f"Hello World: {hello_world()}")
-    print(f"Adresse: {address().country}")
+    print(f"Adresse: {get_address().country}")
     time.sleep(2)
