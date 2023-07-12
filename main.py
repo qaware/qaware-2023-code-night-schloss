@@ -1,14 +1,16 @@
+import json
 import os
 from typing import List
 
 import motor
+import requests
 from fastapi import FastAPI, HTTPException
 from fastapi.encoders import jsonable_encoder
 from motor import motor_asyncio
 from starlette import status
 from starlette.responses import JSONResponse
 
-from models import SensorDataModel, SensorUpdateModel
+from models import SensorDataModel, SensorUpdateModel, Address
 
 app = FastAPI()
 os.environ["MONGODB_URL"] = "mongodb://root:password@localhost:27017/?retryWrites=true&w=majority"
@@ -20,6 +22,13 @@ db = client.sensor_data
 def hello_world():
     response = "Hello World"
     return JSONResponse(status_code=status.HTTP_200_OK, content=response)
+
+
+@app.get("/address", response_description="Address")
+def address():
+    address = Address(country="Germany", city="Mainz", street="Leo-Trepp-Platz", house_number="1")
+    json_address = json.dumps(address.__dict__)
+    return JSONResponse(status_code=status.HTTP_200_OK, content=json_address)
 
 
 @app.post("/sensor/", response_description="Create Sensor Data", response_model=SensorDataModel)
@@ -68,3 +77,8 @@ async def delete_sensor_data(id: str):
         raise HTTPException(status_code=404, detail=f"Sensor Data {id} not found")
 
     return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content=None)
+
+if __name__ == '__main__':
+    answer = requests.get("http://127.0.0.1:8000/address")
+    object = json.loads(json.loads(answer.content), object_hook=lambda d: Address(**d))
+    print(object.country)
