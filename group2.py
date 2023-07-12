@@ -1,4 +1,3 @@
-import json
 import os
 
 import motor
@@ -21,18 +20,16 @@ def hello_world():
     return JSONResponse(status_code=status.HTTP_200_OK, content=response)
 
 
-@app.get("/address", response_description="Get Address")
+@app.get("/address/", response_description="Get Address", response_model=Address)
 def get_address():
-    address = Address(country="Germany", city="Mainz", street="Leo-Trepp-Platz", house_number="1")
-    json_address = json.dumps(address.__dict__)
-    return JSONResponse(status_code=status.HTTP_200_OK, content=json_address)
+    address_object = Address(country="Germany", city="Mainz", street="Leo-Trepp-Platz", house_number="1")
+    return JSONResponse(status_code=status.HTTP_200_OK, content=address_object.json())
 
 
-@app.post("/address", response_description="Create Address")
-def create_address(create: str):
-    address = json.loads(json.loads(create), object_hook=lambda d: Address(**d))
-    print(address.country)
-    return JSONResponse(status_code=status.HTTP_201_CREATED, content=create)
+@app.post("/address/", response_description="Create Address", response_model=Address)
+def create_address(data: Address):
+    print(data.country)
+    return JSONResponse(status_code=status.HTTP_201_CREATED, content=data.json())
 
 
 def communicate_with_group_1():
