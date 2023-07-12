@@ -19,8 +19,14 @@ def hello_world():
     return requests.get(os.environ["SERVICE_URL"] + '/hello_world').content
 
 
-def address():
+def get_address():
     answer = requests.get(os.environ["SERVICE_URL"] + '/address')
+    address_object = json.loads(json.loads(answer.content), object_hook=lambda d: Address(**d))
+    return address_object
+
+
+def create_address(data: Address):
+    answer = requests.post(os.environ["SERVICE_URL"] + '/address', data.json())
     address_object = json.loads(json.loads(answer.content), object_hook=lambda d: Address(**d))
     return address_object
 
@@ -35,5 +41,7 @@ def send_to_group2():
 
 while True:
     print(f"Hello World: {hello_world()}")
-    print(f"Adresse: {address().country}")
+    print(f"Adresse: {get_address().country}")
+    data = Address(country="Germany", city="Mainz", street="Leo-Trepp-Platz", house_number="1")
+    print(f"Adresse: {create_address(data).country}")
     time.sleep(2)
