@@ -1,0 +1,27 @@
+@baseUrl = http://localhost:8000
+
+### Create sensor data
+POST {{baseUrl}}/sensor 
+Content-Type: application/json
+
+{
+    "name": "Sensor",
+    "temperature": 300
+}
+
+### List all sensor data
+GET {{baseUrl}}/sensor 
+
+### Read a single sensor data
+GET {{baseUrl}}/sensor/64bd08a40eaefc35605b8ef8
+
+### Update a single sensor data
+PUT {{baseUrl}}/sensor/64bd08a40eaefc35605b8ef8
+
+{
+    "name": "Updated sensor",
+    "temperature": 320
+}
+
+### Delete a single sensor data
+DELETE {{baseUrl}}/sensor/64bd08a40eaefc35605b8ef8

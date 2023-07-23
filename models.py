@@ -49,10 +49,3 @@ class SensorUpdateModel(BaseModel):
                 "temperature": 320
             }
         }
-
-
-class Address(BaseModel):
-    country: str = Field(...)
-    city: str = Field(...)
-    street: str = Field(...)
-    house_number: str = Field(...)
